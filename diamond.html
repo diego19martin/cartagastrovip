@@ -155,6 +155,23 @@
             background-color: #1da354;
             transform: scale(1.05);
         }
+        .prefer-section {
+            margin-top: 40px;
+            text-align: center;
+            width: 90%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffda44;
+            border-radius: 10px;
+        }
+        .prefer-section h3 {
+            font-size: 1.5em;
+            color: #ffda44;
+            margin-bottom: 10px;
+        }
+        .whatsapp-icon-assistance {
+            margin: 0 auto;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -169,12 +186,18 @@
         };
 
         const updateWhatsAppLink = (machineId, nombre, ubicacion) => {
-            const message = `Hola! \uD83D\uDC4B\n\nNecesito hacer un pedido en la máquina \uD83C\uDFB0 *${machineId}*.\nJuego: *${nombre}*.\nUbicada en: *${ubicacion}*.\n\nGracias! \uD83D\uDE0A`;
-            const whatsappLink = document.querySelector('.whatsapp-icon a');
-            whatsappLink.href = `https://wa.me/541124618288?text=${encodeURIComponent(message)}`;
-            const whatsappIcon = document.querySelector('.whatsapp-icon');
-            whatsappIcon.classList.add('enabled'); // Habilita el enlace de WhatsApp
+            const messagePedido = `Hola! 👋\n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\nUbicada en: *${ubicacion}*.\n\nGracias! 😊`;
+            const whatsappLinkPedido = document.querySelector('.whatsapp-icon a');
+            whatsappLinkPedido.href = `https://wa.me/541124618288?text=${encodeURIComponent(messagePedido)}`;
+            const whatsappIconPedido = document.querySelector('.whatsapp-icon');
+            whatsappIconPedido.classList.add('enabled'); // Habilita el enlace de WhatsApp para pedidos
             document.getElementById('location').textContent = `Presione el botón de WhatsApp para solicitar su pedido en la máquina: ${nombre}`;
+
+            const messageAsistencia = `Hola! 👋\n\nNecesito asistencia Prefer en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\nUbicada en: *${ubicacion}*.\n\nGracias! 😊`;
+            const whatsappLinkAsistencia = document.querySelector('.whatsapp-icon-assistance a');
+            whatsappLinkAsistencia.href = `https://wa.me/541124618288?text=${encodeURIComponent(messageAsistencia)}`;
+            const whatsappIconAssistance = document.querySelector('.whatsapp-icon-assistance');
+            whatsappIconAssistance.classList.add('enabled'); // Habilita el enlace de WhatsApp para asistencia
         };
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -183,7 +206,7 @@
 
             if (machineId) {
                 getInfo(machineId).then(data => {
-                    if (data) {
+                    if (data && data.nombre && data.ubicacion) {
                         const locationElement = document.createElement('p');
                         locationElement.textContent = `Ubicación de la máquina: ${data.ubicacion}`;
                         document.querySelector('.menu').appendChild(locationElement);
@@ -204,9 +227,13 @@
 
         function fetchMachineInfo() {
             const machineId = document.getElementById('machineId').value;
+            const whatsappIcon = document.querySelector('.whatsapp-icon');
+            whatsappIcon.classList.remove('enabled'); // Deshabilita el enlace de WhatsApp para pedidos
+            const whatsappIconAssistance = document.querySelector('.whatsapp-icon-assistance');
+            whatsappIconAssistance.classList.remove('enabled'); // Deshabilita el enlace de WhatsApp para asistencia
             if (machineId) {
                 getInfo(machineId).then(data => {
-                    if (data) {
+                    if (data && data.nombre && data.ubicacion) {
                         // Actualizar el enlace de WhatsApp
                         updateWhatsAppLink(machineId, data.nombre, data.ubicacion);
                     } else {
@@ -254,6 +281,14 @@
         <a href="https://wa.me/541124618288" target="_blank">
             <i class="fab fa-whatsapp"></i>
         </a>
+    </div>
+    <div class="prefer-section">
+        <h3>O bien, solicite asistencia Prefer:</h3>
+        <div class="whatsapp-icon whatsapp-icon-assistance">
+            <a href="https://wa.me/541124618288" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
     </div>
 </body>
 </html>
