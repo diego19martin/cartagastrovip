@@ -169,7 +169,7 @@
         .section {
             margin-top: 20px;
             text-align: center;
-            width: 90%;
+            width: 100%;
             padding: 20px;
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid #ffda44;
@@ -184,9 +184,37 @@
         .whatsapp-icon-assistance, .whatsapp-icon-ticket, .whatsapp-icon-service {
             margin: 0 auto;
         }
+        .items-container {
+            text-align: left;
+            margin: 20px 0;
+        }
+        .items-container h3 {
+            font-size: 1.5em;
+            color: #ffda44;
+            margin-bottom: 10px;
+        }
+        .items-column {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .items-column div {
+            width: 48%;
+        }
+        .items-column h4 {
+            color: #ffda44;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #ffda44;
+        }
+        .items-column label {
+            display: block;
+            margin-bottom: 5px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        let machineData = null; // Variable para almacenar los datos de la máquina
+
         const getInfo = async (machineId) => {
             try {
                 const response = await axios.get(`https://ubicacion-maquinas.herokuapp.com/ubicacion/${machineId}`);
@@ -199,12 +227,12 @@
 
         const updateWhatsAppLink = (machineId, nombre, ubicacion, customLocation = '') => {
             const locationText = customLocation ? customLocation : `Ubicada en: *${ubicacion}*`;
-            const messagePedido = `Hola! 👋\n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+            const selectedItems = Array.from(document.querySelectorAll('.items-container input[type="checkbox"]:checked')).map(item => item.value).join(', ');
+            const messagePedido = `Hola! 👋\n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
             const whatsappLinkPedido = document.querySelector('.whatsapp-icon-service a');
             whatsappLinkPedido.href = `https://wa.me/541124618288?text=${encodeURIComponent(messagePedido)}`;
             const whatsappIconPedido = document.querySelector('.whatsapp-icon-service');
             whatsappIconPedido.classList.add('enabled'); // Habilita el enlace de WhatsApp para pedidos
-            document.getElementById('location').textContent = `Presione el botón de WhatsApp para solicitar su pedido en la máquina: ${nombre}`;
 
             const messageAsistencia = `Hola! 👋\n\nNecesito asistencia Prefer en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
             const whatsappLinkAsistencia = document.querySelector('.whatsapp-icon-assistance a');
@@ -226,6 +254,7 @@
             if (machineId) {
                 getInfo(machineId).then(data => {
                     if (data && data.nombre && data.ubicacion) {
+                        machineData = data; // Almacenar los datos de la máquina
                         const locationElement = document.createElement('p');
                         locationElement.textContent = `Ubicación de la máquina: ${data.ubicacion}`;
                         document.querySelector('.menu').appendChild(locationElement);
@@ -242,6 +271,19 @@
             img.addEventListener('error', function() {
                 this.src = this.src;  // Intentar recargar la imagen
             });
+
+            // Añadir listener a los checkboxes
+            document.querySelectorAll('.items-container input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    if (machineData) {
+                        updateWhatsAppLink(machineData.id, machineData.nombre, machineData.ubicacion);
+                    } else {
+                        const machineId = document.getElementById('machineId').value;
+                        const customLocation = document.getElementById('customLocation').value;
+                        updateWhatsAppLink(machineId, "", "", customLocation);
+                    }
+                });
+            });
         });
 
         function fetchMachineInfo() {
@@ -253,32 +295,20 @@
             whatsappIconAssistance.classList.remove('enabled'); // Deshabilita el enlace de WhatsApp para asistencia
             const whatsappIconTicket = document.querySelector('.whatsapp-icon-ticket');
             whatsappIconTicket.classList.remove('enabled'); // Deshabilita el enlace de WhatsApp para compra de tickets
-            if (machineId) {
+
+            if (machineId || customLocation) {
                 getInfo(machineId).then(data => {
                     if (data && data.nombre && data.ubicacion) {
-                        // Actualizar el enlace de WhatsApp
+                        machineData = data; // Almacenar los datos de la máquina
+                        // Actualizar el enlace de WhatsApp con ubicación de la máquina
                         updateWhatsAppLink(machineId, data.nombre, data.ubicacion, customLocation);
+                    } else if (customLocation) {
+                        // Actualizar el enlace de WhatsApp con ubicación personalizada
+                        updateWhatsAppLink(machineId, "", "", customLocation);
                     } else {
                         document.getElementById('location').textContent = 'Error: No se encontraron datos';
                     }
                 });
-            } else if (customLocation) {
-                const messagePedido = `Hola! 👋\n\nNecesito hacer un pedido desde: ${customLocation}.\n\nGracias! 😊`;
-                const whatsappLinkPedido = document.querySelector('.whatsapp-icon-service a');
-                whatsappLinkPedido.href = `https://wa.me/541124618288?text=${encodeURIComponent(messagePedido)}`;
-                whatsappIconService.classList.add('enabled'); // Habilita el enlace de WhatsApp para pedidos
-
-                const messageAsistencia = `Hola! 👋\n\nNecesito asistencia Prefer en: ${customLocation}.\n\nGracias! 😊`;
-                const whatsappLinkAsistencia = document.querySelector('.whatsapp-icon-assistance a');
-                whatsappLinkAsistencia.href = `https://wa.me/541124618288?text=${encodeURIComponent(messageAsistencia)}`;
-                whatsappIconAssistance.classList.add('enabled'); // Habilita el enlace de WhatsApp para asistencia
-
-                const messageTicket = `Hola! 👋\n\nNecesito comprar tickets desde: ${customLocation}.\n\nGracias! 😊`;
-                const whatsappLinkTicket = document.querySelector('.whatsapp-icon-ticket a');
-                whatsappLinkTicket.href = `https://wa.me/541124618288?text=${encodeURIComponent(messageTicket)}`;
-                whatsappIconTicket.classList.add('enabled'); // Habilita el enlace de WhatsApp para compra de tickets
-
-                document.getElementById('location').textContent = `Presione el botón de WhatsApp para solicitar su pedido desde: ${customLocation}`;
             }
         }
     </script>
@@ -319,6 +349,59 @@
         <input type="text" id="machineId" placeholder="Ingrese el número de la máquina">
         <textarea id="customLocation" placeholder="O ingrese su ubicación manualmente"></textarea>
         <button onclick="fetchMachineInfo()">Ingresar Ubicación</button>
+    </div>
+    <div class="items-container">
+        <h3>Seleccione los ítems de la carta:</h3>
+        <div class="items-column">
+            <div>
+                <h4>Bebidas sin alcohol:</h4>
+                <label><input type="checkbox" value="Agua con gas"> Agua con gas</label>
+                <label><input type="checkbox" value="Agua sin gas"> Agua sin gas</label>
+                <label><input type="checkbox" value="Gaseosas"> Gaseosas</label>
+                <label><input type="checkbox" value="Aguas saborizadas"> Aguas saborizadas</label>
+                <h4>Bebidas con alcohol:</h4>
+                <label><input type="checkbox" value="Copa de Chandon"> Copa de Chandon</label>
+                <h4>Pizza:</h4>
+                <label><input type="checkbox" value="Pizza Napolitana"> Pizza Napolitana</label>
+                <label><input type="checkbox" value="Pizza Muzzarella"> Pizza Muzzarella</label>
+                <h4>Postres:</h4>
+                <label><input type="checkbox" value="Postre Óreo"> Postre Óreo</label>
+                <label><input type="checkbox" value="Cremoso frutos rojos"> Cremoso frutos rojos</label>
+                <h4>Cafetería:</h4>
+                <label><input type="checkbox" value="Café chico"> Café chico</label>
+                <label><input type="checkbox" value="Café americano"> Café americano</label>
+                <label><input type="checkbox" value="Capuchino"> Capuchino</label>
+                <label><input type="checkbox" value="Café doble"> Café doble</label>
+                <label><input type="checkbox" value="Submarino"> Submarino</label>
+                
+                <h4>Panificados:</h4>
+                <label><input type="checkbox" value="Medialunas"> Medialuna manteca</label>
+                <label><input type="checkbox" value="Medialuna grasa"> Medialuna grasa</label>
+                
+                
+            
+            </div>
+            <div>
+
+                <h4>Salado:</h4>
+                <label><input type="checkbox" value="Tostado árabe de jamón y queso"> Tostado árabe de jamón y queso</label>
+                <label><input type="checkbox" value="Tostado de miga de jamón y queso"> Tostado de miga de jamón y queso</label>
+                <label><input type="checkbox" value="Sandwich de jamon crudo"> Sandwich de jamon crudo</label>
+                <label><input type="checkbox" value="Sandwich de pollo"> Sandwich de pollo</label>
+                <label><input type="checkbox" value="Ensalada Caesar"> Ensalada Caesar</label>
+                <label><input type="checkbox" value="Ensalada de camarones"> Ensalada de camarones</label>
+                <label><input type="checkbox" value="Pizza Napolitana"> Pizza Napolitana</label>
+                <label><input type="checkbox" value="Pizza Muzzarella"> Pizza Muzzarella</label>
+                <label><input type="checkbox" value="Pizza Jamon y morrones"> Pizza Jamon y morrones</label>
+                <label><input type="checkbox" value="Plato de quesos"> Plato de quesos</label>
+                <label><input type="checkbox" value="Baguel de salmon"> Baguel de salmon</label>
+                <label><input type="checkbox" value="Hamburguesa completa"> Hamburguesa completa</label>
+                <label><input type="checkbox" value="Ravioles ricota y queso"> Ravioles ricota y queso</label>
+                <label><input type="checkbox" value="Ternera tiernizada"> Ternera tiernizada</label>
+                <label><input type="checkbox" value="Sandwich de bondiola"> Sandwich de bondiola</label>
+                
+            </div>
+        </div>
     </div>
     <div id="location" class="location-info"></div>
     <div class="section">
