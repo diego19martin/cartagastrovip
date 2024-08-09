@@ -327,36 +327,37 @@
       };
 
       const updateWhatsAppLink = (
-  machineId,
-  nombre,
-  ubicacion,
-  customLocation = ""
-) => {
-  const locationText = customLocation
-    ? customLocation
-    : `Ubicada en: *${ubicacion}*`;
-  const selectedItems = Array.from(
-    document.querySelectorAll('.items-container input[type="checkbox"]:checked')
-  )
-    .map((item) => item.value)
-    .join(", ");
+        machineId,
+        nombre,
+        ubicacion,
+        customLocation = ""
+      ) => {
+        const locationText = customLocation
+          ? customLocation
+          : `Ubicada en: *${ubicacion}*`;
+        const selectedItems = Array.from(
+          document.querySelectorAll(
+            '.items-container input[type="checkbox"]:checked'
+          )
+        )
+          .map((item) => item.value)
+          .join(", ");
 
-    console.log(machineId);
-    
+        console.log(machineId);
 
-  if (machineId || customLocation || machineData) {
-    const messagePedido = `Hola! 👋\n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
-    const whatsappLinkPedido = document.querySelector(
-      ".whatsapp-icon-service a"
-    );
-    whatsappLinkPedido.href = `https://wa.me/541124618288?text=${encodeURIComponent(
-      messagePedido
-    )}`;
-    const whatsappIconPedido = document.querySelector(".whatsapp-icon-service");
-    whatsappIconPedido.classList.add("enabled"); // Habilita el enlace de WhatsApp para pedidos
-  } 
-
-
+        if (machineId || customLocation || machineData) {
+          const messagePedido = `Hola! 👋\n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
+          const whatsappLinkPedido = document.querySelector(
+            ".whatsapp-icon-service a"
+          );
+          whatsappLinkPedido.href = `https://wa.me/541124618288?text=${encodeURIComponent(
+            messagePedido
+          )}`;
+          const whatsappIconPedido = document.querySelector(
+            ".whatsapp-icon-service"
+          );
+          whatsappIconPedido.classList.add("enabled"); // Habilita el enlace de WhatsApp para pedidos
+        }
 
         // Botón de Sloti siempre habilitado
         const whatsappIconSloti = document.querySelector(
@@ -464,25 +465,26 @@
           this.src = this.src; // Intentar recargar la imagen
         });
 
-        document.querySelectorAll('.items-container input[type="checkbox"]').forEach((checkbox) => {
-  checkbox.addEventListener("change", () => {
-    const machineId = document.getElementById("machineId").value || (machineData && machineData.id);
-    const customLocation = document.getElementById("customLocation").value;
+        document
+          .querySelectorAll('.items-container input[type="checkbox"]')
+          .forEach((checkbox) => {
+            checkbox.addEventListener("change", () => {
+              const machineId =
+                document.getElementById("machineId").value ||
+                (machineData && machineData.id);
+              const customLocation =
+                document.getElementById("customLocation").value;
 
-    if (machineId || customLocation) {
-      updateWhatsAppLink(
-        machineId,
-        machineData ? machineData.nombre : "",
-        machineData ? machineData.ubicacion : "",
-        customLocation
-      );
-    }
-  });
-});
-
-
-
-
+              if (machineId || customLocation) {
+                updateWhatsAppLink(
+                  machineId,
+                  machineData ? machineData.nombre : "",
+                  machineData ? machineData.ubicacion : "",
+                  customLocation
+                );
+              }
+            });
+          });
       });
 
       function fetchMachineInfo() {
