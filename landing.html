@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecciona tu Categoría</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6A0DAD, #000000);
+            color: white;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .vip-title {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1px;
+            font-family: 'Playfair Display', serif;
+        }
+        .category-title {
+            font-size: 1.8em;
+            margin-bottom: 40px;
+            color: #ffd700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .category-button {
+            font-size: 1.5em;
+            padding: 20px 40px;
+            margin: 20px;
+            border: 2px solid #ffd700;
+            border-radius: 30px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .category-button:hover {
+            background-color: #ffd700;
+            color: black;
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+        }
+        .separator {
+            height: 2px;
+            width: 50%;
+            background-color: #ffd700;
+            margin: 20px 0;
+        }
+        .footer {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .footer-text {
+            font-size: 1em;
+            color: #ffffff;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        .footer-text strong {
+            color: #ffd700;
+        }
+        .whatsapp-icon-sloti {
+            background-color: #25d366;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, background-color 0.3s;
+            margin-top: 20px;
+            animation: pulse 1s infinite;
+        }
+        .whatsapp-icon-sloti a {
+            color: white;
+            font-size: 2em;
+            pointer-events: auto;
+        }
+        .sloti-image {
+            display: block;
+            max-width: 100px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-content img {
+            margin-bottom: 10px;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="vip-title">Experiencia Vip</div>
+    <div class="category-title">Indica tu categoría FUN para comenzar a disfrutar de tu experiencia!</div>
+    <div class="separator"></div>
+    <button class="category-button" onclick="location.href='diamond.html'">Diamond</button>
+    <button class="category-button" onclick="location.href='platinum.html'">Platinum</button>
+    <div class="footer">
+        <div class="footer-text">¿Tenes dudas? <strong>Escribinos</strong></div>
+        <div class="footer-content">
+            <img src="img/sloti.png" alt="Sloti" class="sloti-image">
+            <div class="whatsapp-icon-sloti">
+                <a href="https://wa.me/1158878507" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
