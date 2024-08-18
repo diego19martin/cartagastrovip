@@ -16,7 +16,7 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #6A0DAD, #000000);
+            background: linear-gradient(271deg, #744900, #470071);
             color: white;
             text-align: center;
             background-size: cover;
@@ -50,6 +50,15 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .category-button img {
+            width: 100px;
+            height: auto;
+            margin-right: 10px;
+            border-radius: 10px;
         }
         .category-button:hover {
             background-color: #ffd700;
@@ -130,8 +139,14 @@
     <div class="vip-title">Experiencia Vip</div>
     <div class="category-title">Indica tu categoría FUN para comenzar a disfrutar de tu experiencia!</div>
     <div class="separator"></div>
-    <button class="category-button" onclick="location.href='diamond.html'">Diamond</button>
-    <button class="category-button" onclick="location.href='platinum.html'">Platinum</button>
+    <button class="category-button" onclick="location.href='diamond.html'">
+        <img src="./img/card-diam.png" alt="Tarjeta Diamond">
+        Diamond
+    </button>
+    <button class="category-button" onclick="location.href='platinum.html'">
+        <img src="./img/card_plat.png" alt="Tarjeta Platinum">
+        Platinum
+    </button>
     <div class="footer">
         <div class="footer-text">¿Tenes dudas? <strong>Escribinos</strong></div>
         <div class="footer-content">
