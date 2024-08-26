@@ -97,18 +97,25 @@
         background-color: rgba(255, 255, 255, 0.1);
       }
       .step-number {
-        background-color: #fff;
-        color: #000;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 10px;
-        font-weight: bold;
-        font-size: 1em;
+          background-color: #fff;
+          color: #000;
+          border-radius: 50%;
+          width: 40px; /* Un poco más grande para acomodar el icono */
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 10px;
+          font-size: 1.2em; /* Ajusta el tamaño del ícono */
+          line-height: 1; /* Asegura que el icono esté centrado verticalmente */
       }
+
+.step-number i {
+    font-size: 1.2em; /* Ajusta el tamaño del ícono */
+}
+
+
+
       .step-text {
         display: flex;
         align-items: center;
@@ -690,23 +697,20 @@
     <div class="steps">
       <h3>Pasos para solicitar servicio:</h3>
       <div class="step">
-        <div class="step-number">1</div>
         <div class="step-text">
           <i class="fas fa-keyboard"></i>
           Ingrese el número de la máquina o su ubicación manualmente
         </div>
       </div>
       <div class="step">
-        <div class="step-number">2</div>
         <div class="step-text">
           <i class="fas fa-search"></i>
           Presione el botón de ingresar ubicación
         </div>
       </div>
       <div class="step">
-        <div class="step-number">3</div>
         <div class="step-text">
-          <i class="fas fa-whatsapp"></i>
+          <i class="fab fa-whatsapp"></i>
           Presione el botón de WhatsApp del servicio que desee solicitar
         </div>
       </div>
