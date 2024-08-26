@@ -149,6 +149,7 @@
         display: none;
         background-color: darkorchid;
         border-radius: 9px;
+        padding: 10px;
       }
       .input-container button {
         padding: 10px 20px;
@@ -209,7 +210,13 @@
         border: 2px solid #ffda44;
         border-radius: 10px;
         margin-bottom: 20px;
+        display: none; /* Oculta la sección inicialmente */
       }
+
+      .section-gastro {
+        display: none;
+      }
+
       .section h3 {
         font-size: 1.5em;
         color: #ffda44;
@@ -267,7 +274,9 @@
         cursor: pointer;
         margin-bottom: 20px;
         transition: background-color 0.3s, transform 0.3s;
+        animation: pulse 1s infinite; /* Añadir la animación de escala */
       }
+
       .show-order-button:hover {
         background-color: #1da354;
         transform: scale(1.05);
@@ -293,6 +302,7 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         font-size: 1.8em;
         margin-bottom: 15px;
+        padding: 20px;
       }
       .whatsapp-icon-sloti {
         margin: 0 auto;
@@ -313,7 +323,7 @@
         display: block;
         max-width: 150px;
         height: auto;
-        border-radius: 50%;
+        border-radius: 5%;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         margin: 20px auto;
       }
@@ -341,43 +351,44 @@
       };
 
       const updateWhatsAppLink = (
-    machineId,
-    nombre,
-    ubicacion,
-    customLocation = ""
-) => {
-    const locationText = customLocation
-        ? `Ubicación: *${customLocation}*`
-        : `Ubicada en: *${ubicacion}*`;
-    const selectedItems = Array.from(
-        document.querySelectorAll(
+        machineId,
+        nombre,
+        ubicacion,
+        customLocation = ""
+      ) => {
+        const locationText = customLocation
+          ? `la ubicación: *${customLocation}*`
+          : `Ubicada en: *${ubicacion}*`;
+        const selectedItems = Array.from(
+          document.querySelectorAll(
             '.items-container input[type="checkbox"]:checked'
+          )
         )
-    )
-        .map((item) => item.value)
-        .join(", ");
+          .map((item) => item.value)
+          .join(", ");
 
-    let messagePedido;
+        //Gastronomía
 
-    if (customLocation) {
-        messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en ${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
-    } else if (machineId && nombre) {
-        messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
-    } else {
-        messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
-    }
+        let messagePedido;
 
-    const whatsappLinkPedido = document.querySelector(
-        ".whatsapp-icon-service a"
-    );
-    whatsappLinkPedido.href = `https://wa.me/541124618288?text=${encodeURIComponent(
-        messagePedido
-    )}`;
-    const whatsappIconPedido = document.querySelector(
-        ".whatsapp-icon-service"
-    );
-    whatsappIconPedido.classList.add("enabled"); // Habilita el enlace de WhatsApp para pedidos
+        if (customLocation) {
+          messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en ${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
+        } else if (machineId && nombre) {
+          messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
+        } else {
+          messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
+        }
 
+        const whatsappLinkPedido = document.querySelector(
+          ".whatsapp-icon-service a"
+        );
+        whatsappLinkPedido.href = `https://wa.me/541124618288?text=${encodeURIComponent(
+          messagePedido
+        )}`;
+        const whatsappIconPedido = document.querySelector(
+          ".whatsapp-icon-service"
+        );
+        whatsappIconPedido.classList.add("enabled"); // Habilita el enlace de WhatsApp para pedidos
 
         // Botón de Sloti siempre habilitado
         const whatsappIconSloti = document.querySelector(
@@ -391,7 +402,7 @@
 
         // Habilitar los otros botones según la validación de la máquina o ubicación
         if (machineId || customLocation) {
-          const messageCleaning = `Hola! 👋\n\nSoy Diamond! \n\nNecesito solicitar limpieza en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+          let messageCleaning;
           const whatsappLinkCleaning = document.querySelector(
             ".whatsapp-icon-cleaning a"
           );
@@ -404,7 +415,16 @@
           whatsappIconCleaning.classList.add("enabled"); // Habilita el enlace de WhatsApp para limpieza
         }
 
-        const messageAsistencia = `Hola! 👋\n\nSoy Diamond! \n\nNecesito asistencia Prefer en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+        //Prefer
+
+        let messageAsistencia;
+
+        if (customLocation) {
+          messageAsistencia = `Hola! 👋\n\nSoy Diamond! \n\nNecesito asistencia Prefer en \n${locationText}.\n\nGracias! 😊`;
+        } else if (machineId && nombre) {
+          messageAsistencia = `Hola! 👋\n\nSoy Diamond! \n\nNecesito asistencia Prefer desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+        }
+
         const whatsappLinkAsistencia = document.querySelector(
           ".whatsapp-icon-assistance a"
         );
@@ -414,43 +434,62 @@
         const whatsappIconAssistance = document.querySelector(
           ".whatsapp-icon-assistance"
         );
+
         whatsappIconAssistance.classList.add("enabled"); // Habilita el enlace de WhatsApp para asistencia
 
-        const messageTicket = `Hola! 👋\n\nSoy Diamond! \n\nNecesito comprar tickets desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+        //Juego
+        let messageTicket;
+
+        if (customLocation) {
+          messageTicket = `Hola! 👋\n\nSoy Diamond! \n\nNecesito comprar tickets en \n${locationText}.\n\nGracias! 😊`;
+        } else if (machineId && nombre) {
+          messageTicket = `Hola! 👋\n\nSoy Diamond! \n\nNecesito comprar tickets desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+        }
+
         const whatsappLinkTicket = document.querySelector(
           ".whatsapp-icon-ticket a"
         );
+
         whatsappLinkTicket.href = `https://wa.me/541124618288?text=${encodeURIComponent(
           messageTicket
         )}`;
+
         const whatsappIconTicket = document.querySelector(
           ".whatsapp-icon-ticket"
         );
+
         whatsappIconTicket.classList.add("enabled"); // Habilita el enlace de WhatsApp para compra de tickets
 
-        const messageCleaning = `Hola! 👋\n\nSoy Diamond! \n\nNecesito solicitar limpieza en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+        //Limpieza
+
+        if (customLocation) {
+          messageCleaning = `Hola! 👋\n\nSoy Diamond! \n\nNecesito solicitar servicio de Limpieza en \n${locationText}.\n\nGracias! 😊`;
+        } else if (machineId && nombre) {
+          messageCleaning = `Hola! 👋\n\nSoy Diamond! \n\nNecesito solicitar servicio de Limpieza desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+        }
+
         const whatsappLinkCleaning = document.querySelector(
           ".whatsapp-icon-cleaning a"
         );
         whatsappLinkCleaning.href = `https://wa.me/541124618288?text=${encodeURIComponent(
-            messageCleaning
+          messageCleaning
         )}`;
         const whatsappIconCleaning = document.querySelector(
-            ".whatsapp-icon-cleaning"
+          ".whatsapp-icon-cleaning"
         );
         whatsappIconCleaning.classList.add("enabled"); // Habilita el enlace de WhatsApp para limpieza
       };
 
       function checkInput(field) {
-        const machineField = document.getElementById('machineId');
-        const locationField = document.getElementById('customLocation');
-        const confirmMessage = document.querySelector('.confirm-message');
-        if (field === 'machine' && machineField.value !== '') {
+        const machineField = document.getElementById("machineId");
+        const locationField = document.getElementById("customLocation");
+        const confirmMessage = document.querySelector(".confirm-message");
+        if (field === "machine" && machineField.value !== "") {
           locationField.disabled = true;
           locationField.placeholder = "Este campo está deshabilitado.";
           confirmMessage.style.display = "block";
           confirmMessage.textContent = "Ingresando número de máquina...";
-        } else if (field === 'location' && locationField.value !== '') {
+        } else if (field === "location" && locationField.value !== "") {
           machineField.disabled = true;
           machineField.placeholder = "Este campo está deshabilitado.";
           confirmMessage.style.display = "block";
@@ -467,58 +506,73 @@
       function fetchMachineInfo() {
         const machineId = document.getElementById("machineId").value;
         const customLocation = document.getElementById("customLocation").value;
-        const whatsappIconService = document.querySelector(
-            ".whatsapp-icon-service"
-        );
-        whatsappIconService.classList.remove("enabled"); // Deshabilita el enlace de WhatsApp para pedidos
-        const whatsappIconAssistance = document.querySelector(
-            ".whatsapp-icon-assistance"
-        );
-        whatsappIconAssistance.classList.remove("enabled"); // Deshabilita el enlace de WhatsApp para asistencia
-        const whatsappIconTicket = document.querySelector(
-            ".whatsapp-icon-ticket"
-        );
-        whatsappIconTicket.classList.remove("enabled"); // Deshabilita el enlace de WhatsApp para compra de tickets
-        const whatsappIconCleaning = document.querySelector(
-            ".whatsapp-icon-cleaning"
-        );
-        whatsappIconCleaning.classList.remove("enabled"); // Deshabilita el enlace de WhatsApp para limpieza
 
-        const nextStep = document.querySelector('.next-step');
-        const confirmMessage = document.querySelector('.confirm-message');
+        // Seleccionar todas las secciones que quieres mostrar
+        const sections = document.querySelectorAll(".section");
+
+        // Ocultar WhatsApp Icons al inicio
+        const whatsappIconService = document.querySelector(
+          ".whatsapp-icon-service"
+        );
+        whatsappIconService.classList.remove("enabled");
+        const whatsappIconAssistance = document.querySelector(
+          ".whatsapp-icon-assistance"
+        );
+        whatsappIconAssistance.classList.remove("enabled");
+        const whatsappIconTicket = document.querySelector(
+          ".whatsapp-icon-ticket"
+        );
+        whatsappIconTicket.classList.remove("enabled");
+        const whatsappIconCleaning = document.querySelector(
+          ".whatsapp-icon-cleaning"
+        );
+        whatsappIconCleaning.classList.remove("enabled");
+
+        const nextStep = document.querySelector(".next-step");
+        const confirmMessage = document.querySelector(".confirm-message");
 
         if (machineId || customLocation) {
           getInfo(machineId).then((data) => {
             if (data && data.nombre && data.ubicacion) {
-              machineData = data; // Almacenar los datos de la máquina
-              document.getElementById("alert-message").style.display = "none"; // Ocultar mensaje de alerta si existe
+              machineData = data;
+              document.getElementById("alert-message").style.display = "none";
               document.getElementById(
-                  "game-name"
+                "game-name"
               ).textContent = `Usted está en la máquina: ${data.nombre}`;
               document.getElementById("game-name").style.display = "block";
-              // Actualizar el enlace de WhatsApp con ubicación de la máquina
+
               updateWhatsAppLink(
-                  machineId,
-                  data.nombre,
-                  data.ubicacion,
-                  customLocation
+                machineId,
+                data.nombre,
+                data.ubicacion,
+                customLocation
               );
-              nextStep.textContent = "Ahora, arme su pedido o presione el botón de WhatsApp para solicitar un servicio.";
+
+              // Mostrar las secciones al confirmar la ubicación
+              sections.forEach((section) => (section.style.display = "block"));
+
+              nextStep.textContent =
+                "Ahora, arme su pedido o presione el botón de WhatsApp para solicitar un servicio.";
               nextStep.style.display = "block";
             } else if (customLocation) {
-              document.getElementById("alert-message").style.display = "none"; // Ocultar mensaje de alerta si existe
-              document.getElementById("game-name").style.display = "none"; // Ocultar nombre del juego
-              // Actualizar el enlace de WhatsApp con ubicación personalizada
+              document.getElementById("alert-message").style.display = "none";
+              document.getElementById("game-name").style.display = "none";
+
               updateWhatsAppLink(machineId, "", "", customLocation);
               confirmMessage.textContent = `Usted está en: ${customLocation}`;
-              nextStep.textContent = "Ahora, arme su pedido o presione el botón de WhatsApp para solicitar un servicio.";
+
+              // Mostrar las secciones al confirmar la ubicación
+              sections.forEach((section) => (section.style.display = "block"));
+
+              nextStep.textContent =
+                "Ahora, arme su pedido o presione el botón de WhatsApp para solicitar un servicio.";
               nextStep.style.display = "block";
             } else {
-              machineData = null; // Reiniciar datos de la máquina
+              machineData = null;
               document.getElementById("alert-message").textContent =
-                  "Error: No se encontraron datos de la máquina.";
-              document.getElementById("alert-message").style.display = "block"; // Mostrar mensaje de alerta
-              document.getElementById("game-name").style.display = "none"; // Ocultar nombre del juego
+                "Error: No se encontraron datos de la máquina.";
+              document.getElementById("alert-message").style.display = "block";
+              document.getElementById("game-name").style.display = "none";
               nextStep.style.display = "none";
             }
           });
@@ -531,11 +585,11 @@
 
         // Habilitar el botón de Sloti de inmediato, sin depender de la lógica de ubicación o máquina
         const whatsappIconSloti = document.querySelector(
-            ".whatsapp-icon-sloti"
+          ".whatsapp-icon-sloti"
         );
         whatsappIconSloti.classList.add("enabled");
         const whatsappLinkSloti = document.querySelector(
-            ".whatsapp-icon-sloti a"
+          ".whatsapp-icon-sloti a"
         );
         whatsappLinkSloti.href = `https://wa.me/541166798216?text=Hola Sloti!`;
 
@@ -545,7 +599,7 @@
               machineData = data; // Almacenar los datos de la máquina
               document.getElementById("alert-message").style.display = "none"; // Ocultar mensaje de alerta si existe
               document.getElementById(
-                  "game-name"
+                "game-name"
               ).textContent = `Juego: ${data.nombre}`;
               document.getElementById("game-name").style.display = "block";
               const locationElement = document.createElement("p");
@@ -557,7 +611,7 @@
             } else {
               machineData = null; // Reiniciar datos de la máquina
               document.getElementById("alert-message").textContent =
-                  "Error: No se encontraron datos de la máquina.";
+                "Error: No se encontraron datos de la máquina.";
               document.getElementById("alert-message").style.display = "block"; // Mostrar mensaje de alerta
               document.getElementById("game-name").style.display = "none"; // Ocultar nombre del juego
             }
@@ -569,40 +623,58 @@
           this.src = this.src; // Intentar recargar la imagen
         });
 
+        // Añadir un evento a los checkboxes de la carta
         document
-            .querySelectorAll('.items-container input[type="checkbox"]')
-            .forEach((checkbox) => {
-              checkbox.addEventListener("change", () => {
-                const machineId =
-                    document.getElementById("machineId").value ||
-                    (machineData && machineData.id);
-                const customLocation =
-                    document.getElementById("customLocation").value;
+          .querySelectorAll('.items-container input[type="checkbox"]')
+          .forEach((checkbox) => {
+            checkbox.addEventListener("change", () => {
+              const machineId =
+                document.getElementById("machineId").value ||
+                (machineData && machineData.id);
+              const customLocation =
+                document.getElementById("customLocation").value;
 
-                if (machineId || customLocation) {
-                  updateWhatsAppLink(
-                      machineId,
-                      machineData ? machineData.nombre : "",
-                      machineData ? machineData.ubicacion : "",
-                      customLocation
-                  );
-                }
-              });
+              // Verificar si hay al menos un ítem seleccionado
+              const hasSelectedItems =
+                Array.from(
+                  document.querySelectorAll(
+                    '.items-container input[type="checkbox"]:checked'
+                  )
+                ).length > 0;
+
+              const sectionGastro = document.querySelector(".section-gastro");
+
+              if (hasSelectedItems) {
+                sectionGastro.style.display = "block"; // Muestra la sección gastronómica
+              } else {
+                sectionGastro.style.display = "none"; // Oculta la sección gastronómica
+              }
+
+              if (machineId || customLocation) {
+                updateWhatsAppLink(
+                  machineId,
+                  machineData ? machineData.nombre : "",
+                  machineData ? machineData.ubicacion : "",
+                  customLocation
+                );
+              }
             });
+          });
       });
 
       function toggleOrderSection() {
         const orderSection = document.getElementById("order-section");
         const toggleButton = document.querySelector(".show-order-button");
 
-        if (orderSection.style.display === "none") {
-          orderSection.style.display = "block";
-          toggleButton.textContent = "Cerrar carta digital";
-          toggleButton.style.backgroundColor = "#ff4444"; // Cambiar el color del botón cuando está abierto
-        } else {
+        // Verificar el estado actual de la sección y alternar
+        if (orderSection.style.display === "block") {
           orderSection.style.display = "none";
           toggleButton.textContent = "Armá tu pedido gastronómico";
           toggleButton.style.backgroundColor = "#25D366"; // Volver al color original cuando está cerrado
+        } else {
+          orderSection.style.display = "block";
+          toggleButton.textContent = "Cerrar carta digital";
+          toggleButton.style.backgroundColor = "#ff4444"; // Cambiar el color del botón cuando está abierto
         }
       }
     </script>
@@ -656,7 +728,10 @@
     </div>
     <div class="alert-message" id="alert-message"></div>
     <div class="game-name" id="game-name"></div>
-    <div class="next-step">Ahora, arme su pedido o presione el botón de WhatsApp para solicitar un servicio.</div>
+    <div class="next-step">
+      Ahora, arme su pedido o presione el botón de WhatsApp para solicitar un
+      servicio.
+    </div>
     <div id="order-section">
       <div class="items-container">
         <h3>Seleccione los ítems de la carta:</h3>
@@ -787,13 +862,17 @@
       <button class="show-order-button" onclick="toggleOrderSection()">
         Armá tu pedido gastronómico
       </button>
-      <h3>Solicite servicio gastronómico:</h3>
-      <div class="whatsapp-icon whatsapp-icon-service">
-        <a href="https://wa.me/541124618288" target="_blank">
-          <i class="fab fa-whatsapp"></i>
-        </a>
+
+      <div class="section-gastro">
+        <h3>Solicite servicio gastronómico:</h3>
+        <div class="whatsapp-icon whatsapp-icon-service">
+          <a href="https://wa.me/541124618288" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
       </div>
     </div>
+
     <div class="section">
       <h3>Solicite la compra de tickets:</h3>
       <div class="whatsapp-icon whatsapp-icon-ticket">
@@ -824,9 +903,11 @@
         Sloti está aquí para ayudarte con cualquier consulta o asistencia que
         necesites durante tu experiencia.
       </p>
-      <img src="./img/sloti.png" alt="Sloti" class="sloti-image" />
+      <a href="https://wa.me/541166798216?text=Hola Sloti!" target="_blank">
+        <img src="./img/sloti.png" alt="Sloti" class="sloti-image" />
+      </a>
       <div class="whatsapp-icon whatsapp-icon-sloti">
-        <a href="https://wa.me/541158878507" target="_blank">
+        <a href="https://wa.me/541166798216?text=Hola Sloti!" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
