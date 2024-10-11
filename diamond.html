@@ -256,7 +256,7 @@
         justify-content: space-between;
       }
       .items-column div {
-        width: 48%;
+        width: 100%;
       }
       .items-column h4 {
         color: #ffda44;
@@ -409,6 +409,21 @@
         color: white;
         font-size: 2em;
         pointer-events: auto; /* Habilita el enlace desde el inicio */
+      }
+
+      .salado-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Divide el espacio en dos columnas iguales */
+        gap: 10px; /* Espacio entre las columnas */
+      }
+
+      .salado-columns div {
+        width: 100%; /* Cada columna ocupa todo el ancho disponible en su grid */
+      }
+
+      .salado-columns label {
+        display: block;
+        margin-bottom: 5px;
       }
 
       @keyframes glow {
@@ -850,125 +865,59 @@
       <div class="items-container">
         <h3>Seleccione los ítems de la carta:</h3>
         <div class="items-column">
-          <div>
-            <h4>Bebidas sin alcohol:</h4>
-            <label
-              ><input type="checkbox" value="Agua con gas" /> Agua con
-              gas</label
-            >
-            <label
-              ><input type="checkbox" value="Agua sin gas" /> Agua sin
-              gas</label
-            >
-            <label><input type="checkbox" value="Gaseosas" /> Gaseosas</label>
-            <label
-              ><input type="checkbox" value="Aguas saborizadas" /> Aguas
-              saborizadas</label
-            >
-            <h4>Bebidas con alcohol:</h4>
-            <label
-              ><input type="checkbox" value="Copa de Chandon" /> Copa de
-              Chandon</label
-            >
-            <h4>Postres:</h4>
-            <label
-              ><input type="checkbox" value="Postre Óreo" /> Postre Óreo</label
-            >
-            <label
-              ><input type="checkbox" value="Cremoso frutos rojos" /> Cremoso
-              frutos rojos</label
-            >
-            <h4>Cafetería:</h4>
-            <label
-              ><input type="checkbox" value="Café chico" /> Café chico</label
-            >
-            <label
-              ><input type="checkbox" value="Café americano" /> Café
-              americano</label
-            >
-            <label><input type="checkbox" value="Capuchino" /> Capuchino</label>
-            <label
-              ><input type="checkbox" value="Café doble" /> Café doble</label
-            >
-            <label><input type="checkbox" value="Submarino" /> Submarino</label>
-
-            <h4>Panificados:</h4>
-            <label
-              ><input type="checkbox" value="Medialunas" /> Medialuna
-              manteca</label
-            >
-            <label
-              ><input type="checkbox" value="Medialuna grasa" /> Medialuna
-              grasa</label
-            >
-          </div>
-          <div>
-            <h4>Salado:</h4>
-            <label
-              ><input type="checkbox" value="Tostado árabe de jamón y queso" />
-              Tostado árabe de jamón y queso</label
-            >
-            <label
-              ><input
-                type="checkbox"
-                value="Tostado de miga de jamón y queso"
-              />
-              Tostado de miga de jamón y queso</label
-            >
-            <label
-              ><input type="checkbox" value="Sandwich de jamon crudo" />
-              Sandwich de jamon crudo</label
-            >
-            <label
-              ><input type="checkbox" value="Sandwich de pollo" /> Sandwich de
-              pollo</label
-            >
-            <label
-              ><input type="checkbox" value="Ensalada Caesar" /> Ensalada
-              Caesar</label
-            >
-            <label
-              ><input type="checkbox" value="Ensalada de camarones" /> Ensalada
-              de camarones</label
-            >
-            <label
-              ><input type="checkbox" value="Pizza Napolitana" /> Pizza
-              Napolitana</label
-            >
-            <label
-              ><input type="checkbox" value="Pizza Muzzarella" /> Pizza
-              Muzzarella</label
-            >
-            <label
-              ><input type="checkbox" value="Pizza Jamon y morrones" /> Pizza
-              Jamon y morrones</label
-            >
-            <label
-              ><input type="checkbox" value="Plato de quesos" /> Plato de
-              quesos</label
-            >
-            <label
-              ><input type="checkbox" value="Baguel de salmon" /> Baguel de
-              salmon</label
-            >
-            <label
-              ><input type="checkbox" value="Hamburguesa completa" />
-              Hamburguesa completa</label
-            >
-            <label
-              ><input type="checkbox" value="Ravioles ricota y queso" />
-              Ravioles ricota y queso</label
-            >
-            <label
-              ><input type="checkbox" value="Ternera tiernizada" /> Ternera
-              tiernizada</label
-            >
-            <label
-              ><input type="checkbox" value="Sandwich de bondiola" /> Sandwich
-              de bondiola</label
-            >
-          </div>
+            <div>
+                <h4>Bebidas sin alcohol:</h4>
+                <label><input type="checkbox" value="Agua con o sin gas"> Agua con o sin gas</label>
+                <label><input type="checkbox" value="Gaseosas"> Gaseosas</label>
+                <label><input type="checkbox" value="Aguas saborizadas"> Aguas saborizadas</label>
+    
+                <h4>Bebidas con alcohol:</h4>
+                <label><input type="checkbox" value="Copa de Chandon"> Copa de Chandon</label>
+    
+                <h4>Salado:</h4>
+                <div class="salado-columns">
+                    <div>
+                        <label><input type="checkbox" value="Tostado árabe de jamón y queso"> Tostado árabe de jamón y queso</label>
+                        <label><input type="checkbox" value="Tostado de miga de jamón y queso"> Tostado de miga de jamón y queso</label>
+                        <label><input type="checkbox" value="Sandwich de jamón crudo"> Sandwich de jamón crudo</label>
+                        <label><input type="checkbox" value="Sandwich de pollo"> Sandwich de pollo</label>
+                        <label><input type="checkbox" value="Ensalada Caesar"> Ensalada Caesar</label>
+                        <label><input type="checkbox" value="Ensalada tibia de salmón"> Ensalada tibia de salmón</label>
+                    </div>
+                    <div>
+                        <label><input type="checkbox" value="Pizza Muzzarella"> Pizza Muzzarella</label>
+                        <label><input type="checkbox" value="Pizza Margarita"> Pizza Margarita</label>
+                        <label><input type="checkbox" value="Plato de quesos"> Plato de quesos</label>
+                        <label><input type="checkbox" value="Bagel de salmón"> Bagel de salmón (12:00 a 02:00 HS)</label>
+                        <label><input type="checkbox" value="Hamburguesa completa"> Hamburguesa completa (12:00 a 02:00 HS)</label>
+                        <label><input type="checkbox" value="Sorrentinos capresse"> Sorrentinos capresse con salsa rosa (12:00 a 02:00 HS)</label>
+                    </div>
+                    <div>
+                        <label><input type="checkbox" value="Solomillo envuelto en panceta"> Solomillo envuelto en panceta con papines al romero (12:00 a 02:00 HS)</label>
+                        <label><input type="checkbox" value="Pulled pork"> Pulled pork (12:00 a 02:00 HS)</label>
+                    </div>
+                </div>
+    
+                <h4>Cafetería:</h4>
+                <label><input type="checkbox" value="Café chico"> Café chico</label>
+                <label><input type="checkbox" value="Café americano"> Café americano</label>
+                <label><input type="checkbox" value="Café doble"> Café doble</label>
+                <label><input type="checkbox" value="Capuchino"> Capuchino</label>
+                <label><input type="checkbox" value="Submarino"> Submarino</label>
+    
+                <h4>Panificados:</h4>
+                <label><input type="checkbox" value="Medialuna manteca"> Medialuna manteca</label>
+                <label><input type="checkbox" value="Medialuna grasa"> Medialuna grasa</label>
+            </div>
+            <div>
+                <h4>Postres:</h4>
+                <label><input type="checkbox" value="Postre Óreo"> Postre Óreo</label>
+                <label><input type="checkbox" value="Copa Barcarce"> Copa Barcarce</label>
+            </div>
         </div>
+    </div>
+    
+    
       </div>
     </div>
     <div id="location" class="location-info"></div>
