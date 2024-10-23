@@ -12,6 +12,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    <script type="module" src="js/logUsage.js"></script> <!-- Importa tu archivo de funciones -->
     <style>
       body {
         font-family: "Roboto", sans-serif;
@@ -928,7 +929,7 @@
 
       <div class="section-gastro">
         <h3>Solicite servicio gastronómico:</h3>
-        <div class="whatsapp-icon whatsapp-icon-service">
+        <div class="whatsapp-icon whatsapp-icon-service" id="whatsappButton">
           <a href="https://wa.me/541121632583" target="_blank">
             <i class="fab fa-whatsapp"></i>
           </a>
@@ -938,7 +939,7 @@
 
     <div class="section">
       <h3>Solicite la compra de tickets:</h3>
-      <div class="whatsapp-icon whatsapp-icon-ticket">
+      <div class="whatsapp-icon whatsapp-icon-ticket" id="whatsappTicketButton">
         <a href="https://wa.me/541160971695" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
@@ -994,5 +995,65 @@
         </a>
       </div>
     </div>
+
+
+    <script type="module">
+      // Import the function from logUsage.js
+      import { logUsage } from './js/logUsage.js';
+      
+      // Function to create message content based on the service type
+      function getMessageContent(serviceType) {
+          const machineId = document.getElementById("machineId").value;
+          const clientType = 'Diamond'; 
+          const selectedItems = Array.from(
+              document.querySelectorAll('.items-container input[type="checkbox"]:checked')
+          ).map(item => item.value).join(", ");
+    
+          let message = '';
+          if (serviceType === 'Gastronomía') {
+              message = `Hola! Necesito hacer un pedido en la máquina ${machineId}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
+          } else if (serviceType === 'Compra de Ticket') {
+              message = `Hola! Necesito comprar tickets en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+          }
+    
+          return { machineId, clientType, serviceRequested: serviceType, message, selectedItems };
+      }
+    
+      // Function to redirect to WhatsApp
+      function openWhatsAppLink(whatsappUrl) {
+          window.location.href = whatsappUrl; 
+      }
+    
+      // Listener for 'Gastronomía'
+      document.getElementById("whatsappButton").addEventListener("click", (e) => {
+          e.preventDefault();  // Prevent default action
+    
+          const { machineId, clientType, serviceRequested, message, selectedItems } = getMessageContent('Gastronomía'); 
+    
+          // Redirect to WhatsApp immediately
+          openWhatsAppLink(`https://wa.me/541121632583?text=${encodeURIComponent(message)}`);
+    
+          // Log the usage in the background
+          logUsage({ machineId, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+      });
+    
+      // Listener for 'Compra de Ticket'
+      document.getElementById("whatsappTicketButton").addEventListener("click", (e) => {
+          e.preventDefault();  
+    
+          const { machineId, clientType, serviceRequested, message, selectedItems } = getMessageContent('Compra de Ticket'); 
+    
+          // Redirect to WhatsApp immediately
+          openWhatsAppLink(`https://wa.me/541160971695?text=${encodeURIComponent(message)}`);
+    
+          // Log the usage in the background
+          logUsage({ machineId, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+      });
+    </script>
+    
+    
+  
+  
+    
   </body>
 </html>
