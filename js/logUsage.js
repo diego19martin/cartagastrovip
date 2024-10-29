@@ -1,6 +1,8 @@
 
 export async function logUsage(data) {
   try {
+    console.log(data);
+    
       const response = await fetch('http://localhost:3000/api/log', {
           method: 'POST',
           headers: {

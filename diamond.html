@@ -467,7 +467,9 @@
         }
       }
     </style>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
       let machineData = null; // Variable para almacenar los datos de la máquina
 
@@ -680,6 +682,9 @@
                 data.ubicacion,
                 customLocation
               );
+
+               // Guardar el nombre de la máquina en la variable machineName
+               const machineName = data.nombre;
 
               // Mostrar las secciones al confirmar la ubicación
               sections.forEach((section) => (section.style.display = "block"));
@@ -917,11 +922,11 @@
             </div>
         </div>
     </div>
-    
-    
       </div>
     </div>
+
     <div id="location" class="location-info"></div>
+    
     <div class="section">
       <button class="show-order-button" onclick="toggleOrderSection()">
         Armá tu pedido gastronómico
@@ -947,7 +952,7 @@
     </div>
     <div class="section">
       <h3>Solicite limpieza:</h3>
-      <div class="whatsapp-icon whatsapp-icon-cleaning">
+      <div class="whatsapp-icon whatsapp-icon-cleaning" id="whatsappCleaningtButton">
         <a href="https://wa.me/541135457224" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
@@ -955,7 +960,7 @@
     </div>
     <div class="section">
       <h3>Solicite asistencia Prefer:</h3>
-      <div class="whatsapp-icon whatsapp-icon-assistance">
+      <div class="whatsapp-icon whatsapp-icon-assistance" id="whatsappPrefertButton">
         <a href="https://wa.me/541122217990" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
@@ -966,7 +971,7 @@
       <h3>Accede a Betfun</h3>
       <p>Disfruta de la mejor experiencia de casino online en Betfun.</p>
       <p>Visitanos!</p>
-      <a href="https://betfun.bet.ar/" target="_blank">
+      <a href="https://betfun.bet.ar/" target="_blank" class="whatsappBFtButton">
         <img src="./img/betfun.png" alt="Betfun" class="betfun-image" />
       </a>
       <!-- <p>Quiero contactarme</p>
@@ -986,38 +991,77 @@
         Sloti está aquí para ayudarte con cualquier consulta o asistencia que
         necesites durante tu experiencia.
       </p>
-      <a href="https://wa.me/541166798216?text=Hola Sloti!" target="_blank">
+    
+      <!-- Imagen de Sloti como botón de WhatsApp -->
+      <a href="https://wa.me/541166798216?text=Hola%20Sloti!" target="_blank" class="whatsappSlotiButton">
         <img src="./img/sloti.png" alt="Sloti" class="sloti-image" />
       </a>
+    
+      <!-- Ícono de WhatsApp con el mismo enlace -->
       <div class="whatsapp-icon whatsapp-icon-sloti">
-        <a href="https://wa.me/541166798216?text=Hola Sloti!" target="_blank">
+        <a href="https://wa.me/541166798216?text=Hola%20Sloti!" target="_blank" class="whatsappSlotiButton">
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
     </div>
+    
+    
 
 
     <script type="module">
       // Import the function from logUsage.js
       import { logUsage } from './js/logUsage.js';
       
-      // Function to create message content based on the service type
-      function getMessageContent(serviceType) {
-          const machineId = document.getElementById("machineId").value;
-          const clientType = 'Diamond'; 
-          const selectedItems = Array.from(
-              document.querySelectorAll('.items-container input[type="checkbox"]:checked')
-          ).map(item => item.value).join(", ");
-    
-          let message = '';
-          if (serviceType === 'Gastronomía') {
+// Function to create message content based on the service type
+function getMessageContent(serviceType) {
+      const machineId = document.getElementById("machineId").value || null;
+      const customLocation = document.getElementById("customLocation").value || null;
+      const machineName = machineData ? machineData.nombre : null; // Asegura que el nombre de la máquina se incluya
+      const clientType = 'Diamond'; 
+      const selectedItems = Array.from(
+          document.querySelectorAll('.items-container input[type="checkbox"]:checked')
+      ).map(item => item.value).join(", ");
+
+      let message = '';
+
+      console.log(machineName);
+      
+
+      if (serviceType === 'Gastronomía') {
+          if (machineId) {
               message = `Hola! Necesito hacer un pedido en la máquina ${machineId}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
-          } else if (serviceType === 'Compra de Ticket') {
-              message = `Hola! Necesito comprar tickets en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+          } else if (customLocation) {
+              message = `Hola! Necesito hacer un pedido en ${customLocation}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
           }
-    
-          return { machineId, clientType, serviceRequested: serviceType, message, selectedItems };
-      }
+      } else if (serviceType === 'Compra de Ticket') {
+          if (machineId) {
+              message = `Hola! Necesito comprar tickets en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+          
+            } else if (customLocation) {
+              message = `Hola! Necesito comprar tickets en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+          }
+      } else if (serviceType === 'Limpieza') {
+
+          if (machineId) {
+              message = `Hola! Necesito Limpieza en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+          
+            } else if (customLocation) {
+              message = `Hola! Necesito Limpieza en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+          }
+
+      } else if (serviceType === 'Prefer') {
+
+          if (machineId) {
+              message = `Hola! Necesito servicio Prefer en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+          
+            } else if (customLocation) {
+              message = `Hola! Necesito servicio Prefer en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+          }
+        }
+
+    return { machineId, machineName, customLocation, clientType, serviceRequested: serviceType, message, selectedItems };
+} 
+
     
       // Function to redirect to WhatsApp
       function openWhatsAppLink(whatsappUrl) {
@@ -1026,34 +1070,102 @@
     
       // Listener for 'Gastronomía'
       document.getElementById("whatsappButton").addEventListener("click", (e) => {
-          e.preventDefault();  // Prevent default action
-    
-          const { machineId, clientType, serviceRequested, message, selectedItems } = getMessageContent('Gastronomía'); 
-    
-          // Redirect to WhatsApp immediately
+          e.preventDefault();  
+
+          const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Gastronomía'); 
+
+          // Redirigir inmediatamente a WhatsApp con el mensaje
           openWhatsAppLink(`https://wa.me/541121632583?text=${encodeURIComponent(message)}`);
-    
-          // Log the usage in the background
-          logUsage({ machineId, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+
+          // Registrar el uso en la base de datos en segundo plano
+          logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
       });
+
+
     
       // Listener for 'Compra de Ticket'
       document.getElementById("whatsappTicketButton").addEventListener("click", (e) => {
           e.preventDefault();  
     
-          const { machineId, clientType, serviceRequested, message, selectedItems } = getMessageContent('Compra de Ticket'); 
+          const { machineId, machineName, customLocation, serviceRequested, message, selectedItems } = getMessageContent('Compra de Ticket'); 
     
           // Redirect to WhatsApp immediately
           openWhatsAppLink(`https://wa.me/541160971695?text=${encodeURIComponent(message)}`);
+
+          console.log(machineName);
+          
     
           // Log the usage in the background
-          logUsage({ machineId, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+          logUsage({ machineId, machineName, customLocation, serviceRequested, message, selectedItems }).catch(console.error);
       });
-    </script>
+
+
+       // Listener for 'Limpieza'
+       document.getElementById("whatsappCleaningtButton").addEventListener("click", (e) => {
+          e.preventDefault();  
     
+          const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Limpieza'); 
     
-  
-  
+          // Redirect to WhatsApp immediately
+          openWhatsAppLink(`https://wa.me/1135457224?text=${encodeURIComponent(message)}`);
+    
+          // Log the usage in the background
+          logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+      });
+
+
+      // Listener for 'Limpieza'
+      document.getElementById("whatsappPrefertButton").addEventListener("click", (e) => {
+          e.preventDefault();  
+    
+          const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Prefer'); 
+    
+          // Redirect to WhatsApp immediately
+          openWhatsAppLink(`https://wa.me/541122217990?text=${encodeURIComponent(message)}`);
+    
+          // Log the usage in the background
+          logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+      });
+
+      // Listener for 'Sloti'
+
+        document.querySelectorAll('.whatsappSlotiButton').forEach(button => {
+          button.addEventListener('click', function (event) {
+          event.preventDefault(); // Usar event, no 'e'
+
+          console.log('sloti');
+          
+    
+          const {clientType, serviceRequested, message} = getMessageContent('Sloti'); 
+    
+          // Redirect to WhatsApp immediately
+          openWhatsAppLink(`https://wa.me/541122217990?text=${encodeURIComponent(message)}`);
+    
+          // Log the usage in the background
+          logUsage({clientType, serviceRequested, message}).catch(console.error);
+      })}) 
+      
+      
+      // Listener for 'BetFun'
+
+      document.querySelectorAll('.whatsappBFtButton').forEach(button => {
+          button.addEventListener('click', function (event) {
+          event.preventDefault(); // Usar event, no 'e'
+
+          console.log('BF');
+          
+    
+          const {clientType, serviceRequested, message} = getMessageContent('BetFun'); 
+    
+          // Log the usage in the background
+          logUsage({clientType, serviceRequested, message}).catch(console.error);
+
+            // Redirigir a la página de BetFun
+            window.location.href = "https://betfun.bet.ar";
+      })})    
+
+
+      </script>
     
   </body>
 </html>

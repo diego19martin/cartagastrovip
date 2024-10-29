@@ -22,7 +22,7 @@
         align-items: center;
         justify-content: flex-start;
         min-height: 100vh;
-        background: linear-gradient(94deg, #969292, #060606);
+        background: linear-gradient(0deg, #000000, #6d0493);
         color: white;
       }
       .vip-title {
@@ -97,18 +97,25 @@
         background-color: rgba(255, 255, 255, 0.1);
       }
       .step-number {
-        background-color: #fff;
-        color: #000;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 10px;
-        font-weight: bold;
-        font-size: 1em;
+          background-color: #fff;
+          color: #000;
+          border-radius: 50%;
+          width: 40px; /* Un poco más grande para acomodar el icono */
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 10px;
+          font-size: 1.2em; /* Ajusta el tamaño del ícono */
+          line-height: 1; /* Asegura que el icono esté centrado verticalmente */
       }
+
+.step-number i {
+    font-size: 1.2em; /* Ajusta el tamaño del ícono */
+}
+
+
+
       .step-text {
         display: flex;
         align-items: center;
@@ -227,7 +234,6 @@
       .whatsapp-icon-service {
         margin: 0 auto;
       }
-
       .whatsapp-icon-cleaning {
         margin: 0 auto;
       }
@@ -250,7 +256,7 @@
         justify-content: space-between;
       }
       .items-column div {
-        width: 48%;
+        width: 100%;
       }
       .items-column h4 {
         color: #ffda44;
@@ -282,7 +288,6 @@
         background-color: #1da354;
         transform: scale(1.05);
       }
-
       .chatbot-section {
         margin-top: 20px;
         text-align: center;
@@ -406,6 +411,21 @@
         pointer-events: auto; /* Habilita el enlace desde el inicio */
       }
 
+      .salado-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Divide el espacio en dos columnas iguales */
+        gap: 10px; /* Espacio entre las columnas */
+      }
+
+      .salado-columns div {
+        width: 100%; /* Cada columna ocupa todo el ancho disponible en su grid */
+      }
+
+      .salado-columns label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
       @keyframes glow {
         0% {
           box-shadow: 0 0 5px #28a745;
@@ -446,6 +466,7 @@
         }
       }
     </style>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
       let machineData = null; // Variable para almacenar los datos de la máquina
@@ -484,11 +505,11 @@
         let messagePedido;
 
         if (customLocation) {
-          messagePedido = `Hola! 👋\n\nSoy Platinum! \n\nNecesito hacer un pedido en ${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
+          messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en ${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
         } else if (machineId && nombre) {
-          messagePedido = `Hola! 👋\n\nSoy Platinum! \n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
+          messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
         } else {
-          messagePedido = `Hola! 👋\n\nSoy Platinum! \n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
+          messagePedido = `Hola! 👋\n\nSoy Diamond! \n\nNecesito hacer un pedido en la máquina 🎰 *${machineId}*.\n${locationText}.\n\nPedido: ${selectedItems}.\n\nGracias! 😊`;
         }
 
         const whatsappLinkPedido = document.querySelector(
@@ -514,11 +535,11 @@
 
         // Habilitar los otros botones según la validación de la máquina o ubicación
         if (machineId || customLocation) {
-          const messageCleaning = `Hola! 👋\n\nSoy Platinum! \n\nNecesito solicitar limpieza en la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+          let messageCleaning;
           const whatsappLinkCleaning = document.querySelector(
             ".whatsapp-icon-cleaning a"
           );
-          whatsappLinkCleaning.href = `https://wa.me/541135457224?text=${encodeURIComponent(
+          whatsappLinkCleaning.href = `https://wa.me/541157124933?text=${encodeURIComponent(
             messageCleaning
           )}`;
           const whatsappIconCleaning = document.querySelector(
@@ -532,9 +553,9 @@
         let messageAsistencia;
 
         if (customLocation) {
-          messageAsistencia = `Hola! 👋\n\nSoy Platinum! \n\nNecesito asistencia Prefer en \n${locationText}.\n\nGracias! 😊`;
+          messageAsistencia = `Hola! 👋\n\nSoy Diamond! \n\nNecesito asistencia Prefer en \n${locationText}.\n\nGracias! 😊`;
         } else if (machineId && nombre) {
-          messageAsistencia = `Hola! 👋\n\nSoy Platinum! \n\nNecesito asistencia Prefer desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+          messageAsistencia = `Hola! 👋\n\nSoy Diamond! \n\nNecesito asistencia Prefer desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
         }
 
         const whatsappLinkAsistencia = document.querySelector(
@@ -546,34 +567,38 @@
         const whatsappIconAssistance = document.querySelector(
           ".whatsapp-icon-assistance"
         );
+
         whatsappIconAssistance.classList.add("enabled"); // Habilita el enlace de WhatsApp para asistencia
 
         //Juego
         let messageTicket;
 
         if (customLocation) {
-          messageTicket = `Hola! 👋\n\nSoy Platinum! \n\nNecesito comprar tickets en \n${locationText}.\n\nGracias! 😊`;
+          messageTicket = `Hola! 👋\n\nSoy Diamond! \n\nNecesito comprar tickets en \n${locationText}.\n\nGracias! 😊`;
         } else if (machineId && nombre) {
-          messageTicket = `Hola! 👋\n\nSoy Platinum! \n\nNecesito comprar tickets desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+          messageTicket = `Hola! 👋\n\nSoy Diamond! \n\nNecesito comprar tickets desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
         }
 
         const whatsappLinkTicket = document.querySelector(
           ".whatsapp-icon-ticket a"
         );
+
         whatsappLinkTicket.href = `https://wa.me/541160971695?text=${encodeURIComponent(
           messageTicket
         )}`;
+
         const whatsappIconTicket = document.querySelector(
           ".whatsapp-icon-ticket"
         );
+
         whatsappIconTicket.classList.add("enabled"); // Habilita el enlace de WhatsApp para compra de tickets
 
         //Limpieza
 
         if (customLocation) {
-          messageCleaning = `Hola! 👋\n\nSoy Platinum! \n\nNecesito solicitar servicio de Limpieza en \n${locationText}.\n\nGracias! 😊`;
+          messageCleaning = `Hola! 👋\n\nSoy Diamond! \n\nNecesito solicitar servicio de Limpieza en \n${locationText}.\n\nGracias! 😊`;
         } else if (machineId && nombre) {
-          messageCleaning = `Hola! 👋\n\nSoy Platinum! \n\nNecesito solicitar servicio de Limpieza desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
+          messageCleaning = `Hola! 👋\n\nSoy Diamond! \n\nNecesito solicitar servicio de Limpieza desde la máquina 🎰 *${machineId}*.\nJuego: *${nombre}*.\n${locationText}.\n\nGracias! 😊`;
         }
 
         const whatsappLinkCleaning = document.querySelector(
@@ -901,7 +926,9 @@
         </div>
       </div>
     </div>
+
     <div id="location" class="location-info"></div>
+    
     <div class="section">
       <button class="show-order-button" onclick="toggleOrderSection()">
         Armá tu pedido gastronómico
@@ -909,7 +936,7 @@
 
       <div class="section-gastro">
         <h3>Solicite servicio gastronómico:</h3>
-        <div class="whatsapp-icon whatsapp-icon-service">
+        <div class="whatsapp-icon whatsapp-icon-service" id="whatsappButtonPlatinum">
           <a href="https://wa.me/541121632583" target="_blank">
             <i class="fab fa-whatsapp"></i>
           </a>
@@ -919,12 +946,13 @@
 
     <div class="section">
       <h3>Solicite la compra de tickets:</h3>
-      <div class="whatsapp-icon whatsapp-icon-ticket">
+      <div class="whatsapp-icon whatsapp-icon-ticket" id="whatsappTicketButtonPlatinum">
         <a href="https://wa.me/541160971695" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
     </div>
+
     <div class="section">
       <h3>Solicite limpieza:</h3>
       <div class="whatsapp-icon whatsapp-icon-cleaning">
@@ -933,8 +961,9 @@
         </a>
       </div>
     </div>
+
     <div class="section">
-      <h3>Solicite asistencia Prefer:</h3>
+      <h3>Solicite asistencia prefer:</h3>
       <div class="whatsapp-icon whatsapp-icon-assistance">
         <a href="https://wa.me/541122217990" target="_blank">
           <i class="fab fa-whatsapp"></i>
@@ -946,13 +975,13 @@
       <h3>Accede a Betfun</h3>
       <p>Disfruta de la mejor experiencia de casino online en Betfun.</p>
       <p>Visitanos!</p>
-      <a href="https://betfun.bet.ar/" target="_blank">
+      <a href="https://betfun.bet.ar/" target="_blank" class="whatsappBFtButtonPlatinum">
         <img src="./img/betfun.png" alt="Betfun" class="betfun-image" />
       </a>
-      <!-- <p>Quiero contactarme</p> -->
-      <!-- <div class="whatsapp-icon whatsapp-icon-betfun enabled">
+      <!-- <p>Quiero contactarme</p>
+      <div class="whatsapp-icon whatsapp-icon-betfun enabled">
         <a
-          href="https://wa.me/541124618288?text=Hola! 👋 Soy Platinum! Quiero mas información sobre BetFun. Gracias! 😊;"
+          href="https://wa.me/541124618288?text=Hola! 👋 Soy Diamond! Quiero mas información sobre BetFun. Gracias! 😊;"
           target="_blank"
         >
           <i class="fab fa-whatsapp"></i>
@@ -966,14 +995,127 @@
         Sloti está aquí para ayudarte con cualquier consulta o asistencia que
         necesites durante tu experiencia.
       </p>
-      <a href="https://wa.me/541166798216?text=Hola Sloti!" target="_blank">
+    
+      <!-- Imagen de Sloti como botón de WhatsApp -->
+      <a href="https://wa.me/541166798216?text=Hola%20Sloti!" target="_blank" class="whatsappSlotiButtonPlatinum">
         <img src="./img/sloti.png" alt="Sloti" class="sloti-image" />
       </a>
+    
+      <!-- Ícono de WhatsApp con el mismo enlace -->
       <div class="whatsapp-icon whatsapp-icon-sloti">
-        <a href="https://wa.me/541166798216?text=Hola Sloti!" target="_blank">
+        <a href="https://wa.me/541166798216?text=Hola%20Sloti!" target="_blank" class="whatsappSlotiButtonPlatinum">
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
     </div>
+
+    <script type="module">
+      import { logUsage } from './js/logUsage.js';
+
+      function getMessageContent(serviceType) {
+        const machineId = document.getElementById("machineId").value || null;
+        const customLocation = document.getElementById("customLocation").value || null;
+        const machineName = machineData ? machineData.nombre : null; // Asegura que el nombre de la máquina se incluya
+        const clientType = 'Platinum';  // Cambiado a 'Platinum' en esta página
+        const selectedItems = Array.from(
+          document.querySelectorAll('.items-container input[type="checkbox"]:checked')
+        ).map(item => item.value).join(", ");
+
+        let message = '';
+
+        if (serviceType === 'Gastronomía') {
+          if (machineId) {
+            message = `Hola! Necesito hacer un pedido en la máquina ${machineId}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
+          } else if (customLocation) {
+            message = `Hola! Necesito hacer un pedido en ${customLocation}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
+          }
+        } else if (serviceType === 'Compra de Ticket') {
+          if (machineId) {
+            message = `Hola! Necesito comprar tickets en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+          } else if (customLocation) {
+            message = `Hola! Necesito comprar tickets en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+          }
+        }
+
+        return { machineId, machineName, customLocation, clientType, serviceRequested: serviceType, message, selectedItems };
+      }
+
+      // Listener for 'Gastronomía'
+      document.getElementById("whatsappButtonPlatinum").addEventListener("click", (e) => {
+        e.preventDefault();  
+        const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Gastronomía'); 
+        openWhatsAppLink(`https://wa.me/541121632583?text=${encodeURIComponent(message)}`);
+        logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+      });
+
+      // Listener for 'Compra de Ticket'
+      document.getElementById("whatsappTicketButtonPlatinum").addEventListener("click", (e) => {
+        e.preventDefault();  
+        const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Compra de Ticket'); 
+        openWhatsAppLink(`https://wa.me/541160971695?text=${encodeURIComponent(message)}`);
+        logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+      });
+
+      // Listener for 'Limpieza'
+      document.querySelector(".whatsapp-icon-cleaning").addEventListener("click", (e) => {
+        e.preventDefault();  
+        const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Limpieza'); 
+        openWhatsAppLink(`https://wa.me/541135457224?text=${encodeURIComponent(message)}`);
+        logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+      });
+
+      // Listener for 'Asistencia Prefer'
+      document.querySelector(".whatsapp-icon-assistance").addEventListener("click", (e) => {
+        e.preventDefault();  
+        const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Asistencia Prefer'); 
+        openWhatsAppLink(`https://wa.me/541122217990?text=${encodeURIComponent(message)}`);
+        logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+      });
+
+      // Listener for 'Sloti'
+
+      document.querySelectorAll('.whatsappSlotiButtonPlatinum').forEach(button => {
+          button.addEventListener('click', function (event) {
+          event.preventDefault(); 
+
+          console.log('sloti');
+          
+    
+          const {clientType, serviceRequested, message} = getMessageContent('Sloti'); 
+    
+          // Redirect to WhatsApp immediately
+          openWhatsAppLink(`https://wa.me/541122217990?text=${encodeURIComponent(message)}`);
+    
+          // Log the usage in the background
+          logUsage({clientType, serviceRequested, message}).catch(console.error);
+      })}) 
+      
+      
+      // Listener for 'BetFun'
+
+      document.querySelectorAll('.whatsappBFtButtonPlatinum').forEach(button => {
+          button.addEventListener('click', function (event) {
+          event.preventDefault(); // Usar event, no 'e'
+
+          console.log('BF');
+          
+    
+          const {clientType, serviceRequested, message} = getMessageContent('BetFun'); 
+  
+    
+          // Log the usage in the background
+          logUsage({clientType, serviceRequested, message}).catch(console.error);
+
+            // Redirigir a la página de BetFun
+          window.location.href = "https://betfun.bet.ar";
+
+      })})    
+
+      function openWhatsAppLink(url) {
+        window.location.href = url;
+      }
+    </script>   
+
+
   </body>
 </html>
