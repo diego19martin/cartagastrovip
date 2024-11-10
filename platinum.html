@@ -1051,60 +1051,47 @@
       }
 
       // Function to create message content based on the service type
-      function getMessageContent(serviceType) {
-        const machineId = document.getElementById("machineId").value || null;
-        const customLocation =
-          document.getElementById("customLocation").value || null;
-        const machineName = machineData ? machineData.nombre : null; // Asegura que el nombre de la máquina se incluya
-        const clientType = "Platinum";
-        const selectedItems = Array.from(
-          document.querySelectorAll(
-            '.items-container input[type="checkbox"]:checked'
-          )
-        )
-          .map((item) => item.value)
-          .join(", ");
+function getMessageContent(serviceType, clientName) {
+      const machineId = document.getElementById("machineId").value || null;
+      const customLocation = document.getElementById("customLocation").value || null;
+      const machineName = machineData ? machineData.nombre : null; // Asegura que el nombre de la máquina se incluya
+      const clientType = 'Platinum'; 
+      const selectedItems = Array.from(
+          document.querySelectorAll('.items-container input[type="checkbox"]:checked')
+      ).map(item => item.value).join(", ");
 
-        let message = "";
+      // Format client name only if it's provided
+  const clientGreeting = clientName && clientName !== undefined ? `Soy ${clientName}, ` : ""; 
+  let message = '';
 
-        // console.log(machineName);
+  if (serviceType === 'Gastronomía') {
+    if (machineId) {
+      message = `Hola! ${clientGreeting}necesito hacer un pedido en la máquina ${machineId}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
+    } else if (customLocation) {
+      message = `Hola! ${clientGreeting}necesito hacer un pedido en ${customLocation}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
+    }
+  } else if (serviceType === 'Compra de Ticket') {
+    if (machineId) {
+      message = `Hola! ${clientGreeting}necesito comprar tickets en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+    } else if (customLocation) {
+      message = `Hola! ${clientGreeting}necesito comprar tickets en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+    }
+  } else if (serviceType === 'Limpieza') {
+    if (machineId) {
+      message = `Hola! ${clientGreeting}necesito Limpieza en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+    } else if (customLocation) {
+      message = `Hola! ${clientGreeting}necesito Limpieza en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+    }
+  } else if (serviceType === 'Prefer') {
+    if (machineId) {
+      message = `Hola! ${clientGreeting}necesito servicio Prefer en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+    } else if (customLocation) {
+      message = `Hola! ${clientGreeting}necesito servicio Prefer en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+    }
+  }
 
-        if (serviceType === "Gastronomía") {
-          if (machineId) {
-            message = `Hola! Necesito hacer un pedido en la máquina ${machineId}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
-          } else if (customLocation) {
-            message = `Hola! Necesito hacer un pedido en ${customLocation}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
-          }
-        } else if (serviceType === "Compra de Ticket") {
-          if (machineId) {
-            message = `Hola! Necesito comprar tickets en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
-          } else if (customLocation) {
-            message = `Hola! Necesito comprar tickets en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
-          }
-        } else if (serviceType === "Limpieza") {
-          if (machineId) {
-            message = `Hola! Necesito Limpieza en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
-          } else if (customLocation) {
-            message = `Hola! Necesito Limpieza en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
-          }
-        } else if (serviceType === "Prefer") {
-          if (machineId) {
-            message = `Hola! Necesito servicio Prefer en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
-          } else if (customLocation) {
-            message = `Hola! Necesito servicio Prefer en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
-          }
-        }
-
-        return {
-          machineId,
-          machineName,
-          customLocation,
-          clientType,
-          serviceRequested: serviceType,
-          message,
-          selectedItems,
-        };
-      }
+  return { machineId, machineName, customLocation, clientType, serviceRequested: serviceType, message, selectedItems };
+}
 
     
       function openWhatsAppLink(url) {
