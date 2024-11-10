@@ -1,9 +1,12 @@
 
+// const URL = 'http://localhost:3000/api/log'
+const URL = 'https://vip-digital-server-c92ea591bdcb.herokuapp.com/api/log'
+
 export async function logUsage(data) {
   try {
     console.log(data);
     
-      const response = await fetch('https://vip-digital-server-c92ea591bdcb.herokuapp.com/api/log', {
+      const response = await fetch(URL, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

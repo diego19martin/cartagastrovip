@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carta Gastronómica Platinum</title>
+    <title>Carta Gastronómica Diamond</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
@@ -486,6 +487,7 @@
       };
 
       const updateWhatsAppLink = (
+
         machineId,
         nombre,
         ubicacion,
@@ -639,8 +641,31 @@
       }
 
       function fetchMachineInfo() {
+
+               
+
         const machineId = document.getElementById("machineId").value;
         const customLocation = document.getElementById("customLocation").value;
+
+        
+          function fetchMachineInfo() {
+            Swal.fire({
+              title: 'Ingrese el nombre del cliente (opcional)',
+              input: 'text',
+              inputPlaceholder: 'Nombre del cliente',
+              showCancelButton: true,
+              confirmButtonText: 'Confirmar',
+              cancelButtonText: 'Omitir'
+            }).then((result) => {
+              const clientName = result.value || null; // Captura el nombre del cliente si se ingresó, o null si se omitió
+            })
+          }
+
+
+
+
+
+
 
         // Seleccionar todas las secciones que quieres mostrar
         const sections = document.querySelectorAll(".section");
@@ -1011,7 +1036,24 @@
     <script type="module">
       // Import the function from logUsage.js
       import { logUsage } from './js/logUsage.js';
-      
+
+
+       // Función para mostrar el modal de captura de clientName y ejecutar la acción de WhatsApp
+        async function showClientNameModal() {
+          // Mostrar el modal para capturar el nombre del cliente
+          const { value: clientName } = await Swal.fire({
+            title: 'Ingrese el nombre del cliente (opcional)',
+            input: 'text',
+            inputPlaceholder: 'Nombre del cliente',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Omitir'
+          });
+
+          return clientName;
+        }
+
+
 // Function to create message content based on the service type
 function getMessageContent(serviceType) {
       const machineId = document.getElementById("machineId").value || null;
@@ -1068,64 +1110,84 @@ function getMessageContent(serviceType) {
           window.location.href = whatsappUrl; 
       }
     
-      // Listener for 'Gastronomía'
-      document.getElementById("whatsappButton").addEventListener("click", (e) => {
-          e.preventDefault();  
+      // Listener para el botón de 'Gastronomía'
+        document.getElementById("whatsappButton").addEventListener("click", async (e) => {
+            e.preventDefault();
+            
+            // Capturar el nombre del cliente usando el modal
+            const clientName = await showClientNameModal();
 
-          const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Gastronomía'); 
+            // Obtener logData y añadir clientName
+            const { message, ...logData } = getMessageContent('Gastronomía');
+            logData.clientName = clientName;  // Añadir clientName a logData
 
-          // Redirigir inmediatamente a WhatsApp con el mensaje
-          openWhatsAppLink(`https://wa.me/541121632583?text=${encodeURIComponent(message)}`);
+            // Redirigir a WhatsApp con el mensaje
+            openWhatsAppLink(`https://wa.me/541121632583?text=${encodeURIComponent(message)}`);
 
-          // Registrar el uso en la base de datos en segundo plano
-          logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
-      });
+            // Enviar logData al backend
+            logUsage(logData).catch(console.error);
+        });
+
 
 
     
-      // Listener for 'Compra de Ticket'
-      document.getElementById("whatsappTicketButton").addEventListener("click", (e) => {
-          e.preventDefault();  
-    
-          const { machineId, machineName, customLocation, serviceRequested, message, selectedItems } = getMessageContent('Compra de Ticket'); 
-    
-          // Redirect to WhatsApp immediately
+     // Listener para el botón de 'Compra de Ticket'
+      document.getElementById("whatsappTicketButton").addEventListener("click", async (e) => {
+          e.preventDefault();
+          const clientName = await showClientNameModal();
+
+          console.log(clientName);
+
+          // Obtener logData desde getMessageContent y añadir clientName
+          const { message, ...logData } = getMessageContent('Compra de Ticket', clientName);
+          logData.clientName = clientName;  // Añadir clientName a logData
+
+          // Redirigir a WhatsApp con el mensaje
           openWhatsAppLink(`https://wa.me/541160971695?text=${encodeURIComponent(message)}`);
 
-          console.log(machineName);
+          // Enviar logData al backend
+          logUsage(logData).catch(console.error);
+      });
+
+
+       // Listener para el botón de 'Limpieza'
+        document.getElementById("whatsappCleaningtButton").addEventListener("click", async (e) => {
+            e.preventDefault();
+            
+            // Capturar el nombre del cliente usando el modal
+            const clientName = await showClientNameModal();
+
+            // Obtener logData y añadir clientName
+            const { message, ...logData } = getMessageContent('Limpieza');
+            logData.clientName = clientName;  // Añadir clientName a logData
+
+            // Redirigir a WhatsApp con el mensaje
+            openWhatsAppLink(`https://wa.me/1135457224?text=${encodeURIComponent(message)}`);
+
+            // Enviar logData al backend
+            logUsage(logData).catch(console.error);
+        });
+
+
+
+      // Listener para el botón de 'Prefer'
+      document.getElementById("whatsappPrefertButton").addEventListener("click", async (e) => {
+          e.preventDefault();
           
-    
-          // Log the usage in the background
-          logUsage({ machineId, machineName, customLocation, serviceRequested, message, selectedItems }).catch(console.error);
-      });
+          // Capturar el nombre del cliente usando el modal
+          const clientName = await showClientNameModal();
 
+          // Obtener logData y añadir clientName
+          const { message, ...logData } = getMessageContent('Prefer');
+          logData.clientName = clientName;  // Añadir clientName a logData
 
-       // Listener for 'Limpieza'
-       document.getElementById("whatsappCleaningtButton").addEventListener("click", (e) => {
-          e.preventDefault();  
-    
-          const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Limpieza'); 
-    
-          // Redirect to WhatsApp immediately
-          openWhatsAppLink(`https://wa.me/1135457224?text=${encodeURIComponent(message)}`);
-    
-          // Log the usage in the background
-          logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
-      });
-
-
-      // Listener for 'Limpieza'
-      document.getElementById("whatsappPrefertButton").addEventListener("click", (e) => {
-          e.preventDefault();  
-    
-          const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Prefer'); 
-    
-          // Redirect to WhatsApp immediately
+          // Redirigir a WhatsApp con el mensaje
           openWhatsAppLink(`https://wa.me/541122217990?text=${encodeURIComponent(message)}`);
-    
-          // Log the usage in the background
-          logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
+
+          // Enviar logData al backend
+          logUsage(logData).catch(console.error);
       });
+
 
       // Listener for 'Sloti'
 

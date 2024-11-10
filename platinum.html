@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Carta Gastronómica Platinum</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
@@ -97,24 +98,22 @@
         background-color: rgba(255, 255, 255, 0.1);
       }
       .step-number {
-          background-color: #fff;
-          color: #000;
-          border-radius: 50%;
-          width: 40px; /* Un poco más grande para acomodar el icono */
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 10px;
-          font-size: 1.2em; /* Ajusta el tamaño del ícono */
-          line-height: 1; /* Asegura que el icono esté centrado verticalmente */
+        background-color: #fff;
+        color: #000;
+        border-radius: 50%;
+        width: 40px; /* Un poco más grande para acomodar el icono */
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        font-size: 1.2em; /* Ajusta el tamaño del ícono */
+        line-height: 1; /* Asegura que el icono esté centrado verticalmente */
       }
 
-.step-number i {
-    font-size: 1.2em; /* Ajusta el tamaño del ícono */
-}
-
-
+      .step-number i {
+        font-size: 1.2em; /* Ajusta el tamaño del ícono */
+      }
 
       .step-text {
         display: flex;
@@ -928,7 +927,7 @@
     </div>
 
     <div id="location" class="location-info"></div>
-    
+
     <div class="section">
       <button class="show-order-button" onclick="toggleOrderSection()">
         Armá tu pedido gastronómico
@@ -936,7 +935,10 @@
 
       <div class="section-gastro">
         <h3>Solicite servicio gastronómico:</h3>
-        <div class="whatsapp-icon whatsapp-icon-service" id="whatsappButtonPlatinum">
+        <div
+          class="whatsapp-icon whatsapp-icon-service"
+          id="whatsappButtonPlatinum"
+        >
           <a href="https://wa.me/541121632583" target="_blank">
             <i class="fab fa-whatsapp"></i>
           </a>
@@ -946,7 +948,10 @@
 
     <div class="section">
       <h3>Solicite la compra de tickets:</h3>
-      <div class="whatsapp-icon whatsapp-icon-ticket" id="whatsappTicketButtonPlatinum">
+      <div
+        class="whatsapp-icon whatsapp-icon-ticket"
+        id="whatsappTicketButtonPlatinum"
+      >
         <a href="https://wa.me/541160971695" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
@@ -955,7 +960,10 @@
 
     <div class="section">
       <h3>Solicite limpieza:</h3>
-      <div class="whatsapp-icon whatsapp-icon-cleaning">
+      <div 
+        class="whatsapp-icon whatsapp-icon-cleaning"
+        id="whatsappCleaningButtonPlatinum"
+        >
         <a href="https://wa.me/541135457224" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
@@ -964,7 +972,10 @@
 
     <div class="section">
       <h3>Solicite asistencia prefer:</h3>
-      <div class="whatsapp-icon whatsapp-icon-assistance">
+      <div
+        class = "whatsapp-icon whatsapp-icon-assistance"
+        id = "whatsappPrefertButtonPlatinum"
+        >
         <a href="https://wa.me/541122217990" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
@@ -975,7 +986,11 @@
       <h3>Accede a Betfun</h3>
       <p>Disfruta de la mejor experiencia de casino online en Betfun.</p>
       <p>Visitanos!</p>
-      <a href="https://betfun.bet.ar/" target="_blank" class="whatsappBFtButtonPlatinum">
+      <a
+        href="https://betfun.bet.ar/"
+        target="_blank"
+        class="whatsappBFtButtonPlatinum"
+      >
         <img src="./img/betfun.png" alt="Betfun" class="betfun-image" />
       </a>
       <!-- <p>Quiero contactarme</p>
@@ -995,127 +1010,246 @@
         Sloti está aquí para ayudarte con cualquier consulta o asistencia que
         necesites durante tu experiencia.
       </p>
-    
+
       <!-- Imagen de Sloti como botón de WhatsApp -->
-      <a href="https://wa.me/541166798216?text=Hola%20Sloti!" target="_blank" class="whatsappSlotiButtonPlatinum">
+      <a
+        href="https://wa.me/541166798216?text=Hola%20Sloti!"
+        target="_blank"
+        class="whatsappSlotiButtonPlatinum"
+      >
         <img src="./img/sloti.png" alt="Sloti" class="sloti-image" />
       </a>
-    
+
       <!-- Ícono de WhatsApp con el mismo enlace -->
       <div class="whatsapp-icon whatsapp-icon-sloti">
-        <a href="https://wa.me/541166798216?text=Hola%20Sloti!" target="_blank" class="whatsappSlotiButtonPlatinum">
+        <a
+          href="https://wa.me/541166798216?text=Hola%20Sloti!"
+          target="_blank"
+          class="whatsappSlotiButtonPlatinum"
+        >
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
     </div>
 
     <script type="module">
-      import { logUsage } from './js/logUsage.js';
+      import { logUsage } from "./js/logUsage.js";
 
+      // Función para mostrar el modal de captura de clientName y ejecutar la acción de WhatsApp
+      async function showClientNameModal() {
+        // Mostrar el modal para capturar el nombre del cliente
+        const { value: clientName } = await Swal.fire({
+          title: "Ingrese el nombre del cliente (opcional)",
+          input: "text",
+          inputPlaceholder: "Nombre del cliente",
+          showCancelButton: true,
+          confirmButtonText: "Confirmar",
+          cancelButtonText: "Omitir",
+        });
+
+        return clientName;
+      }
+
+      // Function to create message content based on the service type
       function getMessageContent(serviceType) {
         const machineId = document.getElementById("machineId").value || null;
-        const customLocation = document.getElementById("customLocation").value || null;
+        const customLocation =
+          document.getElementById("customLocation").value || null;
         const machineName = machineData ? machineData.nombre : null; // Asegura que el nombre de la máquina se incluya
-        const clientType = 'Platinum';  // Cambiado a 'Platinum' en esta página
+        const clientType = "Platinum";
         const selectedItems = Array.from(
-          document.querySelectorAll('.items-container input[type="checkbox"]:checked')
-        ).map(item => item.value).join(", ");
+          document.querySelectorAll(
+            '.items-container input[type="checkbox"]:checked'
+          )
+        )
+          .map((item) => item.value)
+          .join(", ");
 
-        let message = '';
+        let message = "";
 
-        if (serviceType === 'Gastronomía') {
+        // console.log(machineName);
+
+        if (serviceType === "Gastronomía") {
           if (machineId) {
             message = `Hola! Necesito hacer un pedido en la máquina ${machineId}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
           } else if (customLocation) {
             message = `Hola! Necesito hacer un pedido en ${customLocation}. Servicio: ${serviceType}. Pedido: ${selectedItems}. Gracias!`;
           }
-        } else if (serviceType === 'Compra de Ticket') {
+        } else if (serviceType === "Compra de Ticket") {
           if (machineId) {
             message = `Hola! Necesito comprar tickets en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
           } else if (customLocation) {
             message = `Hola! Necesito comprar tickets en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
           }
+        } else if (serviceType === "Limpieza") {
+          if (machineId) {
+            message = `Hola! Necesito Limpieza en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+          } else if (customLocation) {
+            message = `Hola! Necesito Limpieza en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+          }
+        } else if (serviceType === "Prefer") {
+          if (machineId) {
+            message = `Hola! Necesito servicio Prefer en la máquina ${machineId}. Servicio: ${serviceType}. Gracias!`;
+          } else if (customLocation) {
+            message = `Hola! Necesito servicio Prefer en ${customLocation}. Servicio: ${serviceType}. Gracias!`;
+          }
         }
 
-        return { machineId, machineName, customLocation, clientType, serviceRequested: serviceType, message, selectedItems };
+        return {
+          machineId,
+          machineName,
+          customLocation,
+          clientType,
+          serviceRequested: serviceType,
+          message,
+          selectedItems,
+        };
       }
 
-      // Listener for 'Gastronomía'
-      document.getElementById("whatsappButtonPlatinum").addEventListener("click", (e) => {
-        e.preventDefault();  
-        const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Gastronomía'); 
-        openWhatsAppLink(`https://wa.me/541121632583?text=${encodeURIComponent(message)}`);
-        logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
-      });
-
-      // Listener for 'Compra de Ticket'
-      document.getElementById("whatsappTicketButtonPlatinum").addEventListener("click", (e) => {
-        e.preventDefault();  
-        const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Compra de Ticket'); 
-        openWhatsAppLink(`https://wa.me/541160971695?text=${encodeURIComponent(message)}`);
-        logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
-      });
-
-      // Listener for 'Limpieza'
-      document.querySelector(".whatsapp-icon-cleaning").addEventListener("click", (e) => {
-        e.preventDefault();  
-        const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Limpieza'); 
-        openWhatsAppLink(`https://wa.me/541135457224?text=${encodeURIComponent(message)}`);
-        logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
-      });
-
-      // Listener for 'Asistencia Prefer'
-      document.querySelector(".whatsapp-icon-assistance").addEventListener("click", (e) => {
-        e.preventDefault();  
-        const { machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems } = getMessageContent('Asistencia Prefer'); 
-        openWhatsAppLink(`https://wa.me/541122217990?text=${encodeURIComponent(message)}`);
-        logUsage({ machineId, machineName, customLocation, clientType, serviceRequested, message, selectedItems }).catch(console.error);
-      });
-
-      // Listener for 'Sloti'
-
-      document.querySelectorAll('.whatsappSlotiButtonPlatinum').forEach(button => {
-          button.addEventListener('click', function (event) {
-          event.preventDefault(); 
-
-          console.log('sloti');
-          
     
-          const {clientType, serviceRequested, message} = getMessageContent('Sloti'); 
-    
-          // Redirect to WhatsApp immediately
-          openWhatsAppLink(`https://wa.me/541122217990?text=${encodeURIComponent(message)}`);
-    
-          // Log the usage in the background
-          logUsage({clientType, serviceRequested, message}).catch(console.error);
-      })}) 
-      
-      
-      // Listener for 'BetFun'
-
-      document.querySelectorAll('.whatsappBFtButtonPlatinum').forEach(button => {
-          button.addEventListener('click', function (event) {
-          event.preventDefault(); // Usar event, no 'e'
-
-          console.log('BF');
-          
-    
-          const {clientType, serviceRequested, message} = getMessageContent('BetFun'); 
-  
-    
-          // Log the usage in the background
-          logUsage({clientType, serviceRequested, message}).catch(console.error);
-
-            // Redirigir a la página de BetFun
-          window.location.href = "https://betfun.bet.ar";
-
-      })})    
-
       function openWhatsAppLink(url) {
         window.location.href = url;
       }
-    </script>   
 
+      // Listener para el botón de 'Gastronomía'
+      document
+        .getElementById("whatsappButtonPlatinum")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
 
+          // Capturar el nombre del cliente usando el modal
+          const clientName = await showClientNameModal();
+
+          // Obtener logData y añadir clientName
+          const { message, ...logData } = getMessageContent("Gastronomía");
+          logData.clientName = clientName; // Añadir clientName a logData
+
+          // Redirigir a WhatsApp con el mensaje
+          openWhatsAppLink(
+            `https://wa.me/541121632583?text=${encodeURIComponent(message)}`
+          );
+
+          // Enviar logData al backend
+          logUsage(logData).catch(console.error);
+        });
+
+      // Listener para el botón de 'Compra de Ticket'
+      document
+        .getElementById("whatsappTicketButtonPlatinum")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+          const clientName = await showClientNameModal();
+
+          console.log(clientName);
+
+          // Obtener logData desde getMessageContent y añadir clientName
+          const { message, ...logData } = getMessageContent(
+            "Compra de Ticket",
+            clientName
+          );
+          logData.clientName = clientName; // Añadir clientName a logData
+
+          // Redirigir a WhatsApp con el mensaje
+          openWhatsAppLink(
+            `https://wa.me/541160971695?text=${encodeURIComponent(message)}`
+          );
+
+          // Enviar logData al backend
+          logUsage(logData).catch(console.error);
+        });
+
+      // Listener para el botón de 'Limpieza'
+      document
+        .getElementById("whatsappCleaningButtonPlatinum")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          // Capturar el nombre del cliente usando el modal
+          const clientName = await showClientNameModal();
+
+          // Obtener logData y añadir clientName
+          const { message, ...logData } = getMessageContent("Limpieza");
+          logData.clientName = clientName; // Añadir clientName a logData
+
+          // Redirigir a WhatsApp con el mensaje
+          openWhatsAppLink(
+            `https://wa.me/1135457224?text=${encodeURIComponent(message)}`
+          );
+
+          // Enviar logData al backend
+          logUsage(logData).catch(console.error);
+        });
+
+      // Listener para el botón de 'Prefer'
+      document
+        .getElementById("whatsappPrefertButtonPlatinum")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          // Capturar el nombre del cliente usando el modal
+          const clientName = await showClientNameModal();
+
+          // Obtener logData y añadir clientName
+          const { message, ...logData } = getMessageContent("Prefer");
+          logData.clientName = clientName; // Añadir clientName a logData
+
+          // Redirigir a WhatsApp con el mensaje
+          openWhatsAppLink(
+            `https://wa.me/541122217990?text=${encodeURIComponent(message)}`
+          );
+
+          // Enviar logData al backend
+          logUsage(logData).catch(console.error);
+        });
+
+      // Listener for 'Sloti'
+
+      document
+        .querySelectorAll(".whatsappSlotiButtonPlatinum")
+        .forEach((button) => {
+          button.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            console.log("sloti");
+
+            const { clientType, serviceRequested, message } =
+              getMessageContent("Sloti");
+
+            // Redirect to WhatsApp immediately
+            openWhatsAppLink(
+              `https://wa.me/541122217990?text=${encodeURIComponent(message)}`
+            );
+
+            // Log the usage in the background
+            logUsage({ clientType, serviceRequested, message }).catch(
+              console.error
+            );
+          });
+        });
+
+      // Listener for 'BetFun'
+
+      document
+        .querySelectorAll(".whatsappBFtButtonPlatinum")
+        .forEach((button) => {
+          button.addEventListener("click", function (event) {
+            event.preventDefault(); // Usar event, no 'e'
+
+            console.log("BF");
+
+            const { clientType, serviceRequested, message } =
+              getMessageContent("BetFun");
+
+            // Log the usage in the background
+            logUsage({ clientType, serviceRequested, message }).catch(
+              console.error
+            );
+
+            // Redirigir a la página de BetFun
+            window.location.href = "https://betfun.bet.ar";
+          });
+        });
+
+    </script>
   </body>
 </html>
